@@ -5,7 +5,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"swt/swt"
+
+	"github.com/wspirrat/swt/swt"
 )
 
 func main() {

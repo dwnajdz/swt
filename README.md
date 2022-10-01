@@ -15,7 +15,7 @@ SWT have two main function **EncodeSWT(value)** and **DecodeSWT(payload)**.
 import (
   "fmt"
   
-  "github.com/wspirrat/swt"
+  "github.com/wspirrat/swt/swt"
 )
 
 func main() {
