@@ -46,15 +46,3 @@ func login(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("login.html"))
 	tmpl.Execute(w, nil)
 }
-
-func signup(w http.ResponseWriter, r *http.Request) {
-	payload := r.URL.Query().Get("swt")
-	res := swt.DecodeSWT(payload)
-
-	mJson, err := json.Marshal(res.Payload)
-	if err != nil {
-		return
-	}
-
-	fmt.Fprintf(w, string(mJson))
-}
