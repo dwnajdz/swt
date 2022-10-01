@@ -13,6 +13,7 @@ import (
 // Payload[key] = value
 type ENCODE_KEY *string
 
+var EXPIRE_TIME = time.Hour * 1
 var config SWT_CONFIG = AutoConfig()
 
 func NewEncodeKey() ENCODE_KEY {
@@ -61,7 +62,7 @@ func EncodeSWT(values map[string]interface{}) (Payload string) {
 	init := SWT{
 		Typ:     "swt",
 		Payload: values,
-		Expire:  now.Add(time.Minute * 1),
+		Expire:  now.Add(EXPIRE_TIME),
 	}
 	// p = payload
 	p := new(bytes.Buffer)

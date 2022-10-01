@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -12,7 +11,6 @@ import (
 func main() {
 	http.HandleFunc("/", home)
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/signup", signup)
 	log.Println("listening on http://localhost:80")
 	http.ListenAndServe(":80", nil)
 }
