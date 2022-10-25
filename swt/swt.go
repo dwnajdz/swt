@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/gob"
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
@@ -58,7 +59,7 @@ type SWT struct {
 	Expire  time.Time
 }
 
-func EncodeSWT(values map[string]interface{}) (Payload string) {
+func EncodeSWT(values map[string]interface{}) (Payload string, Err error) {
 	now := time.Now()
 	init := SWT{
 		Typ:     "swt",
@@ -71,33 +72,33 @@ func EncodeSWT(values map[string]interface{}) (Payload string) {
 	enc := gob.NewEncoder(p)
 	if err := enc.Encode(init); err != nil {
 		fmt.Println(err)
-		return "encode error"
+		return "encode error", err
 	}
 
 	psec, err := encrypt(p.String())
 	if err != nil {
 		fmt.Println(err)
-		return "encrypt error"
+		return "encrypt error", err
 	}
-	return psec
+	return psec, nil
 }
 
-func DecodeSWT(Payload string) SWT {
+func DecodeSWT(Payload string) (SWT, error) {
 	var swt_cargo SWT
 	punsec, err := decrypt(Payload)
 	if err != nil {
-		return swt_cargo
+		return swt_cargo, err
 	}
 
 	pbytes := bytes.NewBufferString(punsec)
 	decoder := gob.NewDecoder(pbytes)
 	if err = decoder.Decode(&swt_cargo); err != nil {
-		return SWT{}
+		return SWT{}, err
 	}
 
 	// if cargo expires then return nil
 	if time.Now().After(swt_cargo.Expire) {
-		return SWT{}
+		return SWT{}, errors.New("Session time expired")
 	}
-	return swt_cargo
+	return swt_cargo, nil
 }
