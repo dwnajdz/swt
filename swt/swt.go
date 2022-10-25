@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/gob"
+	"fmt"
 	"math/rand"
 	"os"
 	"strconv"
@@ -68,13 +69,14 @@ func EncodeSWT(values map[string]interface{}) (Payload string) {
 	p := new(bytes.Buffer)
 
 	enc := gob.NewEncoder(p)
-	err := enc.Encode(init)
-	if err != nil {
+	if err := enc.Encode(init); err != nil {
+		fmt.Println(err)
 		return "encode error"
 	}
 
 	psec, err := encrypt(p.String())
 	if err != nil {
+		fmt.Println(err)
 		return "encrypt error"
 	}
 	return psec
