@@ -4,8 +4,11 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/gob"
+<<<<<<< HEAD
 	"errors"
 	"fmt"
+=======
+>>>>>>> parent of e9bcef7 (print error)
 	"math/rand"
 	"os"
 	"strconv"
@@ -70,15 +73,25 @@ func EncodeSWT(values map[string]interface{}) (Payload string, Err error) {
 	p := new(bytes.Buffer)
 
 	enc := gob.NewEncoder(p)
+<<<<<<< HEAD
 	if err := enc.Encode(init); err != nil {
 		fmt.Println(err)
 		return "encode error", err
+=======
+	err := enc.Encode(init)
+	if err != nil {
+		return "encode error"
+>>>>>>> parent of e9bcef7 (print error)
 	}
 
 	psec, err := encrypt(p.String())
 	if err != nil {
+<<<<<<< HEAD
 		fmt.Println(err)
 		return "encrypt error", err
+=======
+		return "encrypt error"
+>>>>>>> parent of e9bcef7 (print error)
 	}
 	return psec, nil
 }
