@@ -19,16 +19,16 @@ func main() {
 func home(w http.ResponseWriter, r *http.Request) {
 	safeToken := r.URL.Query().Get("token")
 	token := swt.DecodeSWT(safeToken)
-	payload := token.Payload
+	if !token.IsPayloadNil() {
+		payload := token.Payload.(map[string]interface{})
+		fmt.Println(payload)
 
-	fmt.Println(payload)
-	if len(payload) > 1 {
 		if payload["isLogged"].(bool) {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			fmt.Fprintf(w, "Your username is: %s", payload["username"].(string))
+		} else {
+			fmt.Fprintf(w, "You dont have access to this website.")
 		}
-	} else {
-		fmt.Fprintf(w, "You dont have access to this website.")
 	}
 }
 
