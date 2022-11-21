@@ -59,6 +59,11 @@ type SWT struct {
 	Expire  time.Time
 }
 
+// While you are using custom types like struct or etc
+// use EncodeSWTcustom to register this type
+//
+// In EncodeSWT you can use default types like:
+// - int, float, string, []string, []list, bool etc.
 func EncodeSWT(value interface{}) (Payload string) {
 	now := time.Now()
 	init := SWT{
@@ -69,6 +74,38 @@ func EncodeSWT(value interface{}) (Payload string) {
 	// p = payload
 	p := new(bytes.Buffer)
 
+	enc := gob.NewEncoder(p)
+	err := enc.Encode(init)
+	if err != nil {
+		fmt.Println(err)
+		return "encode error"
+	}
+
+	psec, err := encrypt(p.String())
+	if err != nil {
+		fmt.Println(err)
+		return "encrypt error"
+	}
+	return psec
+}
+
+// While you are using custom types like struct or etc
+// use EncodeSWTcustom to register this value
+//
+// In EncodeSWT you can use custom types like:
+// - struct, interface, any custom named type
+func EncodeSWTcustom(value interface{}) (Payload string) {
+	now := time.Now()
+	init := SWT{
+		Typ:     "swt",
+		Payload: value,
+		Expire:  now.Add(EXPIRE_TIME),
+	}
+	// p = payload
+	p := new(bytes.Buffer)
+
+	// if it is custom value something like struct or etc
+	// register this value with gob
 	gob.Register(value)
 	enc := gob.NewEncoder(p)
 	err := enc.Encode(init)
