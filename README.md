@@ -1,5 +1,5 @@
 # swt
-My personal project of compressing data. I created this only for educational purposes and for fun.
+My personal project of encoding data. I created this only for educational purposes and for fun.
 ## How to install?
 In order to install swt follow the instructions:
 ```
