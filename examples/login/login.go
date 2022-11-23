@@ -37,7 +37,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		m := make(map[string]interface{})
 		m["username"] = r.FormValue("uname")
 		m["isLogged"] = true
-		swt_cargo := swt.EncodeSWT(m)
+		swt_cargo := swt.EncodeSWTcustom(m)
 
 		http.Redirect(w, r, fmt.Sprintf("http://localhost:80?token=%s", swt_cargo), 301)
 	}
