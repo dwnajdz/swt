@@ -25,7 +25,8 @@ func main() {
   m["myint"] = 1
   m["mybool"] = true
   // also you can use any value that you want structs, bytes etc.
-  encoded := swt.EncodeSWT(m)
+  // we use custom as we are using map
+  encoded := swt.EncodeSWTcustom(m)
   fmt.Println(encoded)
   // jLGi0jq98ap77J_UTdYvTdFojbytuotRrj6uPCzk3orKTGf8jyUSykvPWVDRCeQc1zMbdC4bU2BohtMjKGY32
   // JfTMwYIomeXmwhBDmoFXsfADwOu6ncEo6Yi_PqD1Xn1VJ1SI4X5J
