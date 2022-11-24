@@ -14,6 +14,20 @@ import (
 // Payload[key] = value
 type ENCODE_KEY *string
 
+// SWT_CONFIG is saved config on the servers that accept tokens
+type SWT_CONFIG struct {
+	EncodeKey ENCODE_KEY
+	Signer    string
+}
+
+// Secure Web Token
+// swt
+type SWT struct {
+	Typ     string
+	Payload interface{}
+	Expire  time.Time
+}
+
 var EXPIRE_TIME = time.Hour * 1
 var config SWT_CONFIG = AutoConfig()
 
@@ -45,19 +59,31 @@ func AutoConfig() SWT_CONFIG {
 
 }
 
-// SWT_CONFIG is saved config on the servers that accept tokens
-type SWT_CONFIG struct {
-	EncodeKey ENCODE_KEY
-	Signer    string
-}
+// Used for exporting config.
+// If you want to save encoding key or check hostname then this function comes useful
+//func ExportConfig(hostname string) (SWT_CONFIG, error) {
+//	fmt.Println(hostname, "config: ", config.Signer)
+//	if hostname == config.Signer {
+//		return config, nil
+//	}
+//
+//	return SWT_CONFIG{}, errors.New("unauthourized user to export config")
+//}
 
-// Secure Web Token
-// swt
-type SWT struct {
-	Typ     string
-	Payload interface{}
-	Expire  time.Time
-}
+// If you want to save key for swt encoding and also be able to export config
+// use NewConfig to get permission for changing/reading private key
+//
+// WARNING!!
+// do not set your signer as UNSET_
+// use os.Hostname to detect your signer name
+//func NewConfig(signer string) error {
+//	if config.Signer != "UNSET_" {
+//		return errors.New("already set")
+//	}
+//
+//	config = SWT_CONFIG{EncodeKey: NewEncodeKey(), Signer: signer}
+//	return nil
+//}
 
 // While you are using custom types like struct or etc
 // use EncodeSWTcustom to register this type

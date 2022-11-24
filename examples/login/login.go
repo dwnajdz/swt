@@ -5,11 +5,13 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/wspirrat/swt/swt"
 )
 
 func main() {
+	swt.EXPIRE_TIME = time.Minute * 1
 	http.HandleFunc("/", home)
 	http.HandleFunc("/login", login)
 	log.Println("listening on http://localhost:80")
