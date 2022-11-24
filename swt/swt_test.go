@@ -10,7 +10,7 @@ func BenchmarkSWTencode(b *testing.B) {
 	}
 }
 
-func Benchmark_encode_decode(b *testing.B) {
+func BenchmarkSWTmulti(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		payload := EncodeSWT(i)
 		DecodeSWT(payload)
