@@ -12,7 +12,7 @@ import (
 )
 
 // Payload[key] = value
-type ENCODE_KEY *string
+type ENCODE_KEY *[]byte
 
 // SWT_CONFIG is saved config on the servers that accept tokens
 type SWT_CONFIG struct {
@@ -23,7 +23,6 @@ type SWT_CONFIG struct {
 // Secure Web Token
 // swt
 type SWT struct {
-	Typ     string
 	Payload interface{}
 	Expire  time.Time
 }
@@ -32,7 +31,7 @@ var EXPIRE_TIME = time.Hour * 1
 var config SWT_CONFIG = AutoConfig()
 
 func NewEncodeKey() ENCODE_KEY {
-	var sha256_key string
+	var sha256_key []byte
 	var hash = sha256.New()
 
 	today := time.Now()
@@ -40,7 +39,7 @@ func NewEncodeKey() ENCODE_KEY {
 	encode := (strconv.Itoa(today.Nanosecond()) + tommorow.String()) + today.String()
 
 	hash.Write([]byte(encode))
-	sha256_key = string(hash.Sum(nil))
+	sha256_key = hash.Sum(nil)
 
 	return &sha256_key
 }
@@ -93,7 +92,6 @@ func AutoConfig() SWT_CONFIG {
 func EncodeSWT(value interface{}) (Payload string) {
 	now := time.Now()
 	init := SWT{
-		Typ:     "swt",
 		Payload: value,
 		Expire:  now.Add(EXPIRE_TIME),
 	}
@@ -107,7 +105,7 @@ func EncodeSWT(value interface{}) (Payload string) {
 		return "encode error"
 	}
 
-	psec, err := encrypt(p.String())
+	psec, err := encrypt(p.Bytes())
 	if err != nil {
 		fmt.Println(err)
 		return "encrypt error"
@@ -123,7 +121,6 @@ func EncodeSWT(value interface{}) (Payload string) {
 func EncodeSWTcustom(value interface{}) (Payload string) {
 	now := time.Now()
 	init := SWT{
-		Typ:     "swt",
 		Payload: value,
 		Expire:  now.Add(EXPIRE_TIME),
 	}
@@ -140,7 +137,7 @@ func EncodeSWTcustom(value interface{}) (Payload string) {
 		return "encode error"
 	}
 
-	psec, err := encrypt(p.String())
+	psec, err := encrypt(p.Bytes())
 	if err != nil {
 		fmt.Println(err)
 		return "encrypt error"

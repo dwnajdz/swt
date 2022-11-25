@@ -4,13 +4,13 @@ import (
 	"testing"
 )
 
-func BenchmarkSWTencode(b *testing.B) {
+func BenchmarkEncode(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		EncodeSWT(i)
 	}
 }
 
-func BenchmarkSWTmulti(b *testing.B) {
+func BenchmarkDecode(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		payload := EncodeSWT(i)
 		DecodeSWT(payload)

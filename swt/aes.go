@@ -8,9 +8,7 @@ import (
 	"io"
 )
 
-func encrypt(message string) (encoded string, err error) {
-	plainText := []byte(message)
-
+func encrypt(plainText []byte) (encoded string, err error) {
 	block, err := aes.NewCipher([]byte(*config.EncodeKey))
 	if err != nil {
 		return
