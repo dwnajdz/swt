@@ -114,10 +114,12 @@ func EncodeSWT(value interface{}) (Payload string) {
 }
 
 // While you are using custom types like struct or etc
-// use EncodeSWTcustom to register this value
+// use EncodeSWTcustom to register this value.
 //
 // In EncodeSWT you can use custom types like:
-// - struct, interface, any custom named type
+// struct, map, interface or any custom named type.
+//
+// CANNOT USE NON EXPORTED TYPES FOR EXAMPLE: bytes.Buffer, time.
 func EncodeSWTcustom(value interface{}) (Payload string) {
 	now := time.Now()
 	init := SWT{
