@@ -1,5 +1,5 @@
 # swt
-My personal project of encoding data. I created this only for educational purposes and for fun.
+SWT (Secure Web Token) is an standard used to share information between two entities, usually a client (like your app's frontend) and a server (your app's backend).
 ## How to install?
 In order to install swt follow the instructions:
 ```
