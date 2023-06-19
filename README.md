@@ -1,5 +1,7 @@
 # swt
 SWT (Secure Web Token) is an standard used to share information between two entities, usually a client (like your app's frontend) and a server (your app's backend).
+## Example login application
+![Alt Text](login_example.gif)
 ## How to install?
 In order to install swt follow the instructions:
 ```
