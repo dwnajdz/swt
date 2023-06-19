@@ -8,8 +8,8 @@ import (
 	"io"
 )
 
-func encrypt(plainText []byte) (encoded string, err error) {
-	block, err := aes.NewCipher([]byte(*config.EncodeKey))
+func encrypt(plainText, encodeKey []byte) (encoded string, err error) {
+	block, err := aes.NewCipher(encodeKey)
 	if err != nil {
 		return
 	}
@@ -27,13 +27,13 @@ func encrypt(plainText []byte) (encoded string, err error) {
 	return base64.URLEncoding.EncodeToString(cipherText), err
 }
 
-func decrypt(secure string) (decoded string, err error) {
+func decrypt(secure string, encodeKey []byte) (decoded string, err error) {
 	cipherText, err := base64.URLEncoding.DecodeString(secure)
 	if err != nil {
 		return
 	}
 
-	block, err := aes.NewCipher([]byte(*config.EncodeKey))
+	block, err := aes.NewCipher(encodeKey)
 	if err != nil {
 		return
 	}

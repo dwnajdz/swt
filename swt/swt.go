@@ -58,32 +58,6 @@ func AutoConfig() SWT_CONFIG {
 
 }
 
-// Used for exporting config.
-// If you want to save encoding key or check hostname then this function comes useful
-//func ExportConfig(hostname string) (SWT_CONFIG, error) {
-//	fmt.Println(hostname, "config: ", config.Signer)
-//	if hostname == config.Signer {
-//		return config, nil
-//	}
-//
-//	return SWT_CONFIG{}, errors.New("unauthourized user to export config")
-//}
-
-// If you want to save key for swt encoding and also be able to export config
-// use NewConfig to get permission for changing/reading private key
-//
-// WARNING!!
-// do not set your signer as UNSET_
-// use os.Hostname to detect your signer name
-//func NewConfig(signer string) error {
-//	if config.Signer != "UNSET_" {
-//		return errors.New("already set")
-//	}
-//
-//	config = SWT_CONFIG{EncodeKey: NewEncodeKey(), Signer: signer}
-//	return nil
-//}
-
 // While you are using custom types like struct or etc
 // use EncodeSWTcustom to register this type
 //
@@ -105,7 +79,7 @@ func EncodeSWT(value interface{}) (Payload string) {
 		return "encode error"
 	}
 
-	psec, err := encrypt(p.Bytes())
+	psec, err := encrypt(p.Bytes(), *config.EncodeKey)
 	if err != nil {
 		fmt.Println(err)
 		return "encrypt error"
@@ -113,9 +87,6 @@ func EncodeSWT(value interface{}) (Payload string) {
 	return psec
 }
 
-// While you are using custom types like struct or etc
-// use EncodeSWTcustom to register this value.
-//
 // In EncodeSWT you can use custom types like:
 // struct, map, interface or any custom named type.
 //
@@ -139,7 +110,7 @@ func EncodeSWTcustom(value interface{}) (Payload string) {
 		return "encode error"
 	}
 
-	psec, err := encrypt(p.Bytes())
+	psec, err := encrypt(p.Bytes(), *config.EncodeKey)
 	if err != nil {
 		fmt.Println(err)
 		return "encrypt error"
@@ -149,7 +120,7 @@ func EncodeSWTcustom(value interface{}) (Payload string) {
 
 func DecodeSWT(Payload string) SWT {
 	var swt_cargo SWT
-	punsec, err := decrypt(Payload)
+	punsec, err := decrypt(Payload, *config.EncodeKey)
 	if err != nil {
 		fmt.Println(err)
 		return swt_cargo
