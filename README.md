@@ -5,7 +5,7 @@ SWT (Secure Web Token) is an standard used to share information between two enti
 ## How to install?
 In order to install swt follow the instructions:
 ```
-go get github.com/wspirrat/swt
+go get github.com/dwnajdz/swt
 ```
 After that you are ready to use swt library!
 ## How it works?
