@@ -55,7 +55,6 @@ func AutoConfig() SWT_CONFIG {
 		EncodeKey: NewEncodeKey(),
 		Signer:    host,
 	}
-
 }
 
 // While you are using custom types like struct or etc
